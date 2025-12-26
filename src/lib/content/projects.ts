@@ -33,7 +33,7 @@ export const projects: Project[] = [
       "Robustness diagnostics across noise, drift, and stress scenarios"
     ],
     image: { src: "/images/risk_toolkit.png", alt: "Risk Toolkit" },
-    links: [{ label: "Code", href: "#" }],
+    links: [],
     featured: true,
     caseStudy: {
       problem:
@@ -71,7 +71,7 @@ export const projects: Project[] = [
       "Execution-aware evaluation with robustness diagnostics"
     ],
     image: { src: "/images/alpha_works.png", alt: "AlphaWorks" },
-    links: [{ label: "Code", href: "#" }],
+    links: [],
     featured: true,
     caseStudy: {
       problem:
