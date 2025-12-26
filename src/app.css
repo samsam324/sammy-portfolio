@@ -1,0 +1,344 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --c-ink: 10 12 16;
+    --c-paper: 247 247 252;
+    --c-muted: 70 80 96;
+    --c-stroke: 10 12 16;
+    --c-accent-a: 0 102 255;
+    --c-accent-b: 255 0 153;
+
+    --radius: 18px;
+
+    --section-py: clamp(5.25rem, 10vw, 9rem);
+    --container-px: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 100%;
+  }
+
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    margin: 0;
+    color: rgb(var(--c-ink));
+    background: linear-gradient(180deg, rgb(var(--c-paper)), rgb(var(--c-paper)));
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter,
+      Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji';
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-accent-a));
+    outline-offset: 3px;
+  }
+
+  [data-section] {
+    scroll-margin-top: 92px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+#svelte {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+@supports (-webkit-touch-callout: none) {
+  html {
+    height: auto;
+    overflow-y: auto;
+  }
+  body {
+    height: auto;
+    overflow-y: visible;
+  }
+}
+
+@layer components {
+  .appShell {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+  }
+  .appContent {
+    position: relative;
+    z-index: 1;
+  }
+  .pageAmbient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.36;
+    transform: translateZ(0);
+    contain: paint;
+    background:
+      radial-gradient(900px 640px at 18% 18%,
+        rgba(0, 102, 255, 0.18),
+        rgba(0, 0, 0, 0) 72%),
+      radial-gradient(980px 720px at 86% 26%,
+        rgba(255, 0, 153, 0.16),
+        rgba(0, 0, 0, 0) 70%),
+      radial-gradient(860px 680px at 30% 88%,
+        rgba(0, 170, 255, 0.10),
+        rgba(0, 0, 0, 0) 72%);
+  }
+
+  .pageCornerAmbient {
+    position: absolute;
+    top: -220px;
+    left: -220px;
+    width: min(820px, 90vw);
+    height: min(680px, 70vh);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.7;
+    transform: translateZ(0);
+    contain: paint;
+    background:
+      radial-gradient(closest-side at 38% 38%,
+        rgba(0, 102, 255, 0.26),
+        rgba(0, 0, 0, 0) 72%),
+      radial-gradient(closest-side at 62% 44%,
+        rgba(255, 0, 153, 0.18),
+        rgba(0, 0, 0, 0) 74%);
+  }
+
+  .containerX {
+    width: 100%;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-px);
+    padding-right: var(--container-px);
+  }
+
+  .sectionY {
+    padding-top: var(--section-py);
+    padding-bottom: var(--section-py);
+  }
+
+  .textGradient {
+    background: linear-gradient(90deg, rgb(var(--c-accent-a)), rgb(var(--c-accent-b)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: var(--radius);
+  }
+  @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .glass {
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+  }
+
+  .card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: var(--radius);
+    box-shadow: 0 18px 40px rgba(10, 12, 16, 0.10);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 26px 60px rgba(10, 12, 16, 0.14);
+    border-color: rgba(0, 0, 0, 0.16);
+  }
+
+  .btnGlass {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    color: rgb(var(--c-ink));
+    box-shadow: 0 12px 26px rgba(10, 12, 16, 0.10);
+  }
+  .btnGlass:hover {
+    background: rgba(255, 255, 255, 0.86);
+    border-color: rgba(0, 0, 0, 0.18);
+    box-shadow: 0 18px 40px rgba(10, 12, 16, 0.12);
+  }
+  .btnGlass > * {
+    position: relative;
+  }
+
+  .btnFloat {
+    transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      background-color 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+  }
+  .btnFloat:hover {
+    transform: translateY(-2px);
+  }
+  .btnFloat:active {
+    transform: translateY(-1px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btnFloat {
+      transition: none;
+    }
+    .btnFloat:hover,
+    .btnFloat:active {
+      transform: none;
+    }
+  }
+
+  .revealY {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  [data-reveal="in"].revealY {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ambientSection {
+    position: relative;
+    overflow: visible;
+  }
+  .ambientSection > .containerX {
+    position: relative;
+    z-index: 1;
+  }
+  .ambientLayer {
+    position: absolute;
+    inset: -320px 0 -320px 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.82;
+    transform: translateZ(0);
+    contain: paint;
+  }
+
+  .ambientLayer--projects {
+    background:
+      radial-gradient(720px 520px at 12% 30%,
+        rgba(0, 102, 255, 0.16),
+        rgba(0, 0, 0, 0) 72%),
+      radial-gradient(760px 540px at 88% 24%,
+        rgba(255, 0, 153, 0.14),
+        rgba(0, 0, 0, 0) 70%);
+  }
+
+  .ambientLayer--skills {
+    background:
+      radial-gradient(820px 560px at 25% 40%,
+        rgba(255, 0, 153, 0.12),
+        rgba(0, 0, 0, 0) 72%),
+      radial-gradient(760px 560px at 80% 60%,
+        rgba(0, 102, 255, 0.12),
+        rgba(0, 0, 0, 0) 70%);
+  }
+
+  .ambientLayer--favorites {
+    opacity: 0.48;
+    background:
+      radial-gradient(720px 520px at 18% 30%,
+        rgba(0, 102, 255, 0.12),
+        rgba(0, 0, 0, 0) 72%),
+      radial-gradient(1100px 760px at 55% 55%,
+        rgba(0, 170, 255, 0.06),
+        rgba(0, 0, 0, 0) 74%),
+      radial-gradient(680px 480px at 78% 75%,
+        rgba(255, 0, 153, 0.10),
+        rgba(0, 0, 0, 0) 72%);
+  }
+
+  .ambientSection .ambientLayer--favorites {
+    inset: -360px 0 -360px 0;
+    mask-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 18%,
+      rgba(0, 0, 0, 1) 82%,
+      rgba(0, 0, 0, 0)
+    );
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 18%,
+      rgba(0, 0, 0, 1) 82%,
+      rgba(0, 0, 0, 0)
+    );
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+  }
+
+  @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  }
+
+  section#experience.ambientSection .card {
+    background: rgba(255, 255, 255, 0.88);
+  }
+  section#experience.ambientSection .card:hover {
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  section#favorites.ambientSection .card {
+    background: rgba(255, 255, 255, 0.84);
+  }
+  section#favorites.ambientSection .card:hover {
+    background: rgba(255, 255, 255, 0.90);
+  }
+
+  .ambientLayer--soft {
+    opacity: 0.5;
+    background:
+      radial-gradient(760px 540px at 70% 35%,
+        rgba(0, 102, 255, 0.10),
+        rgba(0, 0, 0, 0) 72%),
+      radial-gradient(1200px 820px at 50% 60%,
+        rgba(255, 0, 153, 0.05),
+        rgba(0, 0, 0, 0) 76%),
+      radial-gradient(680px 520px at 22% 70%,
+        rgba(255, 0, 153, 0.08),
+        rgba(0, 0, 0, 0) 72%);
+  }
+
+  .ambientLayer--contact {
+    opacity: 0.25;
+    background:
+      radial-gradient(900px 620px at 30% 60%,
+        rgba(0, 102, 255, 0.12),
+        rgba(0, 0, 0, 0) 72%),
+      radial-gradient(900px 620px at 78% 45%,
+        rgba(255, 0, 153, 0.10),
+        rgba(0, 0, 0, 0) 72%);
+  }
+}
