@@ -209,7 +209,7 @@
           class="dot {i === selectedIndex ? 'dotActive' : ''}"
           on:click={() => scrollTo(i)}
           aria-label={"Go to slide " + (i + 1)}
-        />
+        ></button>
       {/each}
     </div>
   {/if}

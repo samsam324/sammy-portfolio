@@ -35,9 +35,9 @@
       aria-label="Close case study"
       on:click={close}
       transition:fade={{ duration: 120 }}
-    />
+    ></button>
 
-    <aside
+    <div
       class="absolute right-0 top-0 h-full w-full max-w-[560px] bg-white border-l border-black/10 shadow-soft"
       role="dialog"
       aria-modal="true"
@@ -94,7 +94,7 @@
           </div>
         {/if}
       </div>
-    </aside>
+    </div>
   </div>
 {/if}
 

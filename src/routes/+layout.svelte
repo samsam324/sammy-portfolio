@@ -13,8 +13,8 @@
 </svelte:head>
 
 <div class="appShell">
-  <div class="pageAmbient" aria-hidden="true" />
-  <div class="pageCornerAmbient" aria-hidden="true" />
+  <div class="pageAmbient" aria-hidden="true"></div>
+  <div class="pageCornerAmbient" aria-hidden="true"></div>
   <div class="appContent">
     <Nav />
     <slot />

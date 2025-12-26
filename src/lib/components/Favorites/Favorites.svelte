@@ -8,7 +8,7 @@
 </script>
 
 <section id="favorites" data-section class="sectionY ambientSection">
-  <div class="ambientLayer ambientLayer--favorites" aria-hidden="true" />
+  <div class="ambientLayer ambientLayer--favorites" aria-hidden="true"></div>
   <div class="containerX">
     <header class="mb-10 max-w-3xl" use:scrollIn>
       <div class="text-xs uppercase tracking-[0.22em] text-muted">Library</div>

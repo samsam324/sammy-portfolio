@@ -35,7 +35,7 @@
 </script>
 
 <section id="contact" data-section class="ambientSection pt-[var(--section-py)] pb-10 md:pb-12">
-  <div class="ambientLayer ambientLayer--contact" aria-hidden="true" />
+  <div class="ambientLayer ambientLayer--contact" aria-hidden="true"></div>
   <div class="containerX">
     <div class="card p-6 md:p-10" use:scrollIn>
       <div class="text-xs uppercase tracking-[0.22em] text-muted">Contact</div>
