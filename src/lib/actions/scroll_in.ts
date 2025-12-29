@@ -19,12 +19,10 @@ function resolveScroller(): Window | HTMLElement {
 
     // This project scrolls on <body> (html overflow hidden, body overflow auto).
     if (htmlOv === "hidden" && (bodyOv === "auto" || bodyOv === "scroll")) return body;
-
-    const se = document.scrollingElement as HTMLElement | null;
-    if (se) return se;
   } catch {
     // ignore
   }
+  // Default: page scroll uses the window (ScrollTrigger's natural mode).
   return window;
 }
 

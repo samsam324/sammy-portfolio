@@ -21,10 +21,11 @@
       if (htmlOv === "hidden" && (bodyOv === "auto" || bodyOv === "scroll")) return body;
     } catch {
     }
-    return se ?? html;
+    return window;
   };
 
-  const getScrollerY = (scroller: HTMLElement) => scroller.scrollTop ?? 0;
+  const getScrollerY = (scroller: Window | HTMLElement) =>
+    scroller === window ? window.scrollY ?? 0 : scroller.scrollTop ?? 0;
 
   function goTo(id: string) {
     const el = document.getElementById(id);
