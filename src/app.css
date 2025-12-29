@@ -20,7 +20,6 @@
   html {
     color-scheme: light;
     scroll-behavior: smooth;
-    overflow-y: hidden;
     overflow-x: hidden;
     height: 100%;
   }
@@ -66,14 +65,17 @@
   min-height: 100dvh;
 }
 
+/* iOS/Safari scroll stability: keep the scroll container on the root, avoid body-only scrolling */
 @supports (-webkit-touch-callout: none) {
   html {
-    height: auto;
+    height: 100%;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   body {
-    height: auto;
-    overflow-y: visible;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

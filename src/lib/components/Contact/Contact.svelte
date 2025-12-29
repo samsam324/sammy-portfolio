@@ -85,6 +85,17 @@
     min-width: clamp(96px, 16vw, 120px);
   }
 
+  @media (max-width: 420px) {
+    .contactBtn {
+      min-width: 88px;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+      font-size: 0.875rem !important; /* ~text-sm */
+    }
+  }
+
 
   .copyLabelWrap {
     position: relative;
