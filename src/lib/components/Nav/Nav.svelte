@@ -37,7 +37,24 @@
       const scroller = resolveScroller();
       const currentY = getScrollerY(scroller);
       const targetY = currentY + el.getBoundingClientRect().top - 92;
-      scroller.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
+
+      // iOS Safari can ignore smooth scroll calls in some cases. Use a safe fallback.
+      try {
+        scroller.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
+        // If it didn't move, fall back to hash + instant scroll.
+        window.setTimeout(() => {
+          const after = getScrollerY(scroller);
+          if (Math.abs(after - currentY) < 2) {
+            history.replaceState(null, "", `#${id}`);
+            el.scrollIntoView({ block: "start" });
+            window.scrollTo({ top: Math.max(0, window.scrollY - 92), behavior: "auto" });
+          }
+        }, 50);
+      } catch {
+        history.replaceState(null, "", `#${id}`);
+        el.scrollIntoView({ block: "start" });
+        window.scrollTo({ top: Math.max(0, window.scrollY - 92), behavior: "auto" });
+      }
 
       requestAnimationFrame(() => ScrollTrigger.refresh());
       window.setTimeout(() => ScrollTrigger.refresh(), 250);
