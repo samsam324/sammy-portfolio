@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
   import { onMount } from "svelte";
   import { navSections, site } from "$lib/content/site";
 
@@ -34,37 +32,20 @@
     isHidden = false;
 
     if (el) {
-      const scroller = resolveScroller();
-      const currentY = getScrollerY(scroller);
-      const targetY = currentY + el.getBoundingClientRect().top - 92;
-
-      // iOS Safari can ignore smooth scroll calls in some cases. Use a safe fallback.
+      // Use native anchor semantics + smooth scrolling.
+      // Your sections already have scroll-margin-top via `[data-section]` in CSS.
+      history.replaceState(null, "", `#${id}`);
       try {
-        scroller.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
-        // If it didn't move, fall back to hash + instant scroll.
-        window.setTimeout(() => {
-          const after = getScrollerY(scroller);
-          if (Math.abs(after - currentY) < 2) {
-            history.replaceState(null, "", `#${id}`);
-            el.scrollIntoView({ block: "start" });
-            window.scrollTo({ top: Math.max(0, window.scrollY - 92), behavior: "auto" });
-          }
-        }, 50);
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
       } catch {
-        history.replaceState(null, "", `#${id}`);
-        el.scrollIntoView({ block: "start" });
-        window.scrollTo({ top: Math.max(0, window.scrollY - 92), behavior: "auto" });
+        // Fallback for older browsers
+        el.scrollIntoView();
       }
-
-      requestAnimationFrame(() => ScrollTrigger.refresh());
-      window.setTimeout(() => ScrollTrigger.refresh(), 250);
-      window.setTimeout(() => ScrollTrigger.refresh(), 700);
     }
     isOpen = false;
   }
 
   onMount(() => {
-    gsap.registerPlugin(ScrollTrigger);
     const getScrollY = () => getScrollerY(resolveScroller());
 
     let lastY = getScrollY();

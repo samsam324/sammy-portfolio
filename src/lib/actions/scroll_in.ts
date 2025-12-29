@@ -1,31 +1,3 @@
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-let registered = false;
-let defaultsSet = false;
-function ensure() {
-  if (registered) return;
-  gsap.registerPlugin(ScrollTrigger);
-  registered = true;
-}
-
-function resolveScroller(): Window | HTMLElement {
-  if (typeof window === "undefined") return window as unknown as Window;
-  try {
-    const html = document.documentElement;
-    const body = document.body;
-    const htmlOv = getComputedStyle(html).overflowY;
-    const bodyOv = getComputedStyle(body).overflowY;
-
-    // This project scrolls on <body> (html overflow hidden, body overflow auto).
-    if (htmlOv === "hidden" && (bodyOv === "auto" || bodyOv === "scroll")) return body;
-  } catch {
-    // ignore
-  }
-  // Default: page scroll uses the window (ScrollTrigger's natural mode).
-  return window;
-}
-
 function prefersReducedMotion() {
   return typeof window !== "undefined"
     ? window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false
@@ -42,46 +14,59 @@ export type ScrollInOptions = {
 export function scrollIn(node: HTMLElement, opts: ScrollInOptions = {}) {
   if (typeof window === "undefined") return {};
   if (prefersReducedMotion()) return {};
-  ensure();
-
-  const scroller = resolveScroller();
-  if (!defaultsSet) {
-    defaultsSet = true;
-    if (scroller !== window) ScrollTrigger.defaults({ scroller });
-  }
 
   const y = opts.y ?? 14;
   const duration = opts.duration ?? 0.7;
-  const start = opts.start ?? "top 80%";
+  // Keep API compatibility, but we implement triggering via IntersectionObserver.
+  // `start` is ignored here (was a ScrollTrigger string like "top 80%").
 
   // If you apply this to a container, we’ll stagger its direct children.
   const children = Array.from(node.children) as HTMLElement[];
   const targets = children.length >= 3 ? children : [node];
+  const stagger = children.length >= 3 ? opts.stagger ?? 0.06 : 0;
 
-  gsap.set(targets, { opacity: 0, y });
+  // Initial state
+  for (const t of targets) {
+    t.style.opacity = "0";
+    t.style.transform = `translate3d(0, ${y}px, 0)`;
+    t.style.willChange = "transform, opacity";
+    t.style.transitionProperty = "opacity, transform";
+    t.style.transitionDuration = `${duration}s`;
+    t.style.transitionTimingFunction = "cubic-bezier(0.2, 0.8, 0.2, 1)";
+    t.style.transitionDelay = "0s";
+  }
 
-  const tween = gsap.to(targets, {
-    opacity: 1,
-    y: 0,
-    duration,
-    ease: "power3.out",
-    stagger: children.length >= 3 ? opts.stagger ?? 0.06 : 0,
-    scrollTrigger: {
-      trigger: node,
-      start,
-      once: true,
-      scroller: scroller === window ? undefined : scroller
-    }
-  });
+  const reveal = () => {
+    targets.forEach((t, i) => {
+      t.style.transitionDelay = `${i * stagger}s`;
+      t.style.opacity = "1";
+      t.style.transform = "translate3d(0, 0, 0)";
+    });
+  };
 
-  // Some browser/layout features can delay trigger calculations until the next frame.
-  // A one-time refresh avoids “stuck invisible until resize” edge cases.
-  requestAnimationFrame(() => ScrollTrigger.refresh());
+  // Trigger when the element enters roughly the bottom 80% of the viewport.
+  let io: IntersectionObserver | null = null;
+  if (typeof IntersectionObserver !== "undefined") {
+    io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          reveal();
+          io?.disconnect();
+          io = null;
+        }
+      },
+      { root: null, rootMargin: "0px 0px -20% 0px", threshold: 0.01 }
+    );
+    io.observe(node);
+  } else {
+    // Very old browsers: reveal immediately.
+    reveal();
+  }
 
   return {
     destroy() {
-      tween.scrollTrigger?.kill();
-      tween.kill();
+      io?.disconnect();
+      io = null;
     }
   };
 }
