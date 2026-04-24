@@ -9,18 +9,38 @@ export type ExperienceItem = {
 
 export const experience: ExperienceItem[] = [
   {
+    id: "flow-traders-ascent",
+    title: "Ascent Participant",
+    org: "Flow Traders",
+    time: "Expected May 2026",
+    bullets: [
+      "Selected as one of 18 students for Flow Traders Ascent, a program focused on trading, research, and collaboration",
+      "Will participate in an algorithmic trading competition, poker tournament, and logic puzzles over two days"
+    ],
+    tags: []
+  },
+  {
+    id: "prizepicks",
+    title: "Software Engineer Intern",
+    org: "PrizePicks",
+    time: "Expected Jun 2026 → Sep 2026",
+    bullets: [
+      "Incoming backend intern on the engineering team",
+    ],
+    tags: []
+  },
+  {
     id: "ucla-zhaoyu-zhang",
-    title: "UCLA Quantitative Researcher (REU)",
-    org: "Statistical Arbitrage Research (Prof. Zhaoyu Zhang)",
+    title: "UCLA Research Assistant",
+    org: "Statistical Arbitrage Research with Dr. Mihai Cucuringu",
     time: "Nov 2025 → Present",
     bullets: [
-      "Conducting applied research on statistical arbitrage in cryptocurrency markets, with a focus on pairs trading under non-stationary conditions",
-      "Developed research pipelines for data ingestion, pair selection, signal generation, and walk-forward validation",
-      "Implemented cointegration and distance-based similarity methods with rolling recalibration to handle structural breaks",
-      "Evaluated robustness across market regimes, volatility shifts, and liquidity conditions, and analyzed overfitting and regime related failure modes",
-      "Modeled realistic execution effects including fees, funding rates, slippage, and latency, and assessed performance using risk-adjusted metrics"
+      "Research on statistical arbitrage in crypto pairs trading under regime shifts and structural breaks",
+      "Built end-to-end pipeline for data, pair selection, signals and walk-forward validation with rolling recalibration",
+      "Develop a Mixture of Experts with Hidden Markov Model gating and XGBoost timing for long/short per pair",
+      "Benchmark Mixture of Experts against rule-based strategies under trading costs: fees, funding, slippage, latency"
     ],
-    tags: ["Time Series", "Statistical Arbitrage", "Python", "Validation", "Execution Modeling"]
+    tags: ["Python", "Pandas", "XGBoost", "hmmlearn", "statsmodels"]
   },
   {
     id: "mazer-group",
@@ -28,12 +48,11 @@ export const experience: ExperienceItem[] = [
     org: "Mazer Group, LLC",
     time: "Jun 2025 → Sep 2025",
     bullets: [
-      "Worked on research and software infrastructure for evaluating quantitative models using live, streaming market data",
-      "Built monitoring and walkforward evaluation systems to assess model behavior under real world execution conditions",
-      "Collaborated with senior researchers on model development, evaluation methodology, and execution logic",
-      "Validated proprietary strategies using realistic execution assumptions and risk-aware performance analysis"
+      "Utilized $1,000,000 of trading capital to develop and validate proprietary strategies in live financial markets",
+      "Collaborated with hedge fund manager on research and execution of algorithmic models",
+      "Achieved 18.3% CAGR with 1.28 Sharpe and 8.1% max drawdown in live trading under real market execution"
     ],
-    tags: ["Research Infrastructure", "Monitoring", "Validation", "Python", "Data Systems"]
+    tags: ["Python", "Pandas", "NumPy", "statsmodels"]
   }
 ];
 
